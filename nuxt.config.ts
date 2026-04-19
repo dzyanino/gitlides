@@ -21,5 +21,14 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+
+  supabase: {
+    redirectOptions: {
+      login: '/login',
+      callback: '/confirm',
+      include: ['/home'],
+      exclude: ['/']
+    }
   }
 })
