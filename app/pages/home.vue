@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-const { user } = useUserSession()
 </script>
 
 <template>
-  <div>{{ user }}</div>
+  <div>home</div>
 </template>
