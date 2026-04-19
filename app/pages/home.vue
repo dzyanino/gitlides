@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const { user } = useUserSession()
+</script>
+
 <template>
-  <div>home lele</div>
+  <div>{{ user }}</div>
 </template>
