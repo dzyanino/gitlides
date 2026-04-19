@@ -10,9 +10,8 @@ watch(loggedIn, (yes) => {
 
 <template>
   <UPageHero
-    title="You can go blabla"
-    description="For blabla and blablabla, blabla bla blablabla."
-    headline="Hehe"
+    title="No more boring meetings"
+    description="Gitlides is a tool for making slides out of daily commits to use during review meetings."
     class="w-full h-full"
   >
     <template #links>
