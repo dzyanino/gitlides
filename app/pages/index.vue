@@ -1,11 +1,5 @@
 <script setup lang="ts">
-const { loggedIn, clear } = useUserSession()
-
-watch(loggedIn, (yes) => {
-  if (!yes) {
-    navigateTo('/')
-  }
-})
+const user = useSupabaseUser()
 </script>
 
 <template>
@@ -16,32 +10,20 @@ watch(loggedIn, (yes) => {
   >
     <template #links>
       <UButton
-        v-if="!loggedIn"
-        to="/api/auth/github"
-        icon="i-simple-icons-github"
-        label="Login with GitHub"
-        color="neutral"
+        v-if="!user"
+        to="/login"
+        icon="i-lucide-arrow-right"
+        label="Get started"
         size="lg"
-        external
       />
 
-      <template v-else>
-        <UButton
-          to="/home"
-          icon="i-lucide-git-graph"
-          label="Continue"
-          color="neutral"
-          size="lg"
-        />
-        <UButton
-          icon="i-lucide-log-out"
-          label="Logout"
-          color="neutral"
-          variant="subtle"
-          size="lg"
-          @click="clear"
-        />
-      </template>
+      <UButton
+        v-else
+        to="/home"
+        icon="i-lucide-git-graph"
+        label="Continue"
+        size="lg"
+      />
 
       <UButton
         to="#"
