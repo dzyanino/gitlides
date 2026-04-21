@@ -14,10 +14,10 @@ watch(user, () => {
 
 <template>
   <UApp>
-    <UMain class="flex flex-col flex-1">
-      <div class="flex flex-1 items-center justify-center p-4">
-        <span>Waiting for login...</span>
-      </div>
+    <UMain class="flex">
+      <UContainer class="flex items-center justify-center">
+        <span>Redirecting...</span>
+      </UContainer>
     </UMain>
   </UApp>
 </template>

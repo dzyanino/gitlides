@@ -39,7 +39,7 @@ async function signOut() {
       </template>
     </UHeader>
 
-    <UMain class="flex flex-col flex-1">
+    <UMain class="flex">
       <slot />
     </UMain>
   </UApp>

@@ -32,8 +32,8 @@ async function signIn() {
 </script>
 
 <template>
-  <div class="flex flex-col flex-1 items-center justify-center gap-4 p-4">
-    <UPageCard class="w-full max-w-md">
+  <UContainer class="flex items-center justify-center">
+    <UPageCard class="max-w-md -mt-(--ui-header-height)">
       <UAuthForm
         title="Login"
         description="Authenticate with your Github account to continue."
@@ -41,5 +41,5 @@ async function signIn() {
         :providers="providers"
       />
     </UPageCard>
-  </div>
+  </UContainer>
 </template>

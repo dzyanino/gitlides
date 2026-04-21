@@ -15,7 +15,6 @@ const user = useSupabaseUser()
         icon="i-lucide-arrow-right"
         label="Get started"
         size="lg"
-        external
       />
 
       <UButton
@@ -23,7 +22,6 @@ const user = useSupabaseUser()
         to="/home"
         icon="i-lucide-git-graph"
         label="Continue"
-        color="neutral"
         size="lg"
       />
 
