@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const user = useSupabaseUser()
 </script>
 
 <template>
@@ -9,11 +10,21 @@
   >
     <template #links>
       <UButton
+        v-if="!user"
         to="/login"
         icon="i-lucide-arrow-right"
         label="Get started"
         size="lg"
         external
+      />
+
+      <UButton
+        v-else
+        to="/home"
+        icon="i-lucide-git-graph"
+        label="Continue"
+        color="neutral"
+        size="lg"
       />
 
       <UButton

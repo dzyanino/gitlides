@@ -1,48 +1,45 @@
 <script setup lang="ts">
+const user = useSupabaseUser()
+
+watch(user, () => {
+  if (user.value) {
+    return navigateTo('/home')
+  }
+}, { immediate: true })
+
+const supabase = useSupabaseClient()
+
+const providers = [{
+  label: 'GitHub',
+  icon: 'i-simple-icons-github',
+  class: 'cursor-pointer',
+  onClick: () => {
+    signIn()
+  }
+}]
+
+async function signIn() {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      scopes: 'public_repo',
+      redirectTo: 'http://localhost:3000/confirm'
+    }
+  })
+
+  if (error) console.error(error)
+}
 </script>
 
 <template>
-  <UPageHero
-    title="No more boring meetings"
-    description="Gitlides is a tool for making slides out of daily commits to use during review meetings."
-    class="w-full h-full"
-  >
-    <!-- <template #links>
-      <UButton
-        v-if="!loggedIn"
-        to="/api/auth/github"
-        icon="i-simple-icons-github"
-        label="Login with GitHub"
-        color="neutral"
-        size="lg"
-        external
+  <div class="flex flex-col flex-1 items-center justify-center gap-4 p-4">
+    <UPageCard class="w-full max-w-md">
+      <UAuthForm
+        title="Login"
+        description="Authenticate with your Github account to continue."
+        icon="i-lucide-user"
+        :providers="providers"
       />
-
-      <template v-else>
-        <UButton
-          to="/home"
-          icon="i-lucide-git-graph"
-          label="Continue"
-          color="neutral"
-          size="lg"
-        />
-        <UButton
-          icon="i-lucide-log-out"
-          label="Logout"
-          color="neutral"
-          variant="subtle"
-          size="lg"
-          @click="clear"
-        />
-      </template>
-
-      <UButton
-        to="#"
-        label="Learn more"
-        color="neutral"
-        variant="subtle"
-        size="lg"
-      />
-    </template> -->
-  </UPageHero>
+    </UPageCard>
+  </div>
 </template>
