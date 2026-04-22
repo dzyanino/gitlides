@@ -4,7 +4,10 @@ import type { DropdownMenuItem } from '@nuxt/ui'
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 
+const route = useRoute()
+
 const isLogOutModalOpen = shallowRef<boolean>(false)
+const isLogOutButtonLoading = shallowRef<boolean>(false)
 
 const items = ref<DropdownMenuItem[][]>([
   [
@@ -25,6 +28,8 @@ const items = ref<DropdownMenuItem[][]>([
 ])
 
 async function signOut() {
+  isLogOutButtonLoading.value = true
+
   const { error } = await supabase.auth.signOut()
 
   if (error) console.error(error)
@@ -33,6 +38,10 @@ async function signOut() {
 
   navigateTo('/login')
 }
+
+onUnmounted(() => {
+  isLogOutButtonLoading.value = false
+})
 </script>
 
 <template>
@@ -53,7 +62,7 @@ async function signOut() {
           variant="ghost"
         />
 
-        <template v-if="user">
+        <template v-if="user && route.path != '/'">
           <UDropdownMenu
             :items
             arrow
@@ -97,6 +106,7 @@ async function signOut() {
         <UButton
           label="Confirm"
           color="error"
+          :loading="isLogOutButtonLoading"
           @click="signOut"
         />
       </template>
