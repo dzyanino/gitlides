@@ -48,6 +48,7 @@ onUnmounted(() => {
   <UApp>
     <UHeader
       title="Gitlides"
+      :toggle="false"
       class="border-none"
     >
       <template #right>
