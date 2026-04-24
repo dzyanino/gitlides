@@ -14,6 +14,32 @@ export type Database = {
   }
   public: {
     Tables: {
+      provider_token: {
+        Row: {
+          created_at: string
+          token: string
+          user_id: number
+        }
+        Insert: {
+          created_at?: string
+          token: string
+          user_id: number
+        }
+        Update: {
+          created_at?: string
+          token?: string
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'provider_token_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: true
+            referencedRelation: 'user'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       repo: {
         Row: {
           created_at: string
