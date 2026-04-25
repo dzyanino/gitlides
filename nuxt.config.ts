@@ -9,6 +9,10 @@ export default defineNuxtConfig({
 
   ssr: false,
 
+  imports: {
+    dirs: ['~/types']
+  },
+
   devtools: {
     enabled: true
   },
