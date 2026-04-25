@@ -1,9 +1,7 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server'
+import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
-  const user = await serverSupabaseUser(event)
-  if (!user)
-    throw createError({ statusCode: 401, message: 'Unauthorized' })
+  await requireAuth(event)
 
   const body = await readBody(event)
   const { id, username } = body
