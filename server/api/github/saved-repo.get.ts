@@ -19,8 +19,8 @@ export default defineEventHandler(async (event) => {
 
     const { data: repos } = await octokit.rest.repos.listForAuthenticatedUser()
 
-    const databaseRepoNames = new Set(databaseRepos.map(r => r.name))
-    const savedRepos = repos.filter(repo => databaseRepoNames.has(repo.name))
+    const databaseRepoNames = new Set(databaseRepos.map(r => r.full_name))
+    const savedRepos = repos.filter(repo => databaseRepoNames.has(repo.full_name))
 
     return savedRepos
   } catch (error) {
