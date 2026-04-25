@@ -1,4 +1,4 @@
-import type { H3Event } from '#imports'
+import type { H3Event } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
 
 export async function getGithubToken(event: H3Event<globalThis.EventHandlerRequest>) {
