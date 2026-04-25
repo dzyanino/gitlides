@@ -43,23 +43,23 @@ export type Database = {
       repo: {
         Row: {
           created_at: string
+          full_name: string
           id: number
           last_date: string | null
-          name: string
           user_id: number
         }
         Insert: {
           created_at?: string
+          full_name: string
           id?: number
           last_date?: string | null
-          name: string
           user_id: number
         }
         Update: {
           created_at?: string
+          full_name?: string
           id?: number
           last_date?: string | null
-          name?: string
           user_id?: number
         }
         Relationships: [
@@ -95,7 +95,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_github_user_id: { Args: never, Returns: number }
     }
     Enums: {
       [_ in never]: never
