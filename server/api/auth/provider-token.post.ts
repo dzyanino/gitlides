@@ -15,10 +15,10 @@ export default defineEventHandler(async (event) => {
 
   const { error } = await supabase
     .from('provider_token')
-    .insert({
+    .upsert({
       user_id,
       token: provider_token
-    })
+    }, { onConflict: 'user_id' })
 
   if (error)
     throw createError({ statusCode: 500, message: error.message })
