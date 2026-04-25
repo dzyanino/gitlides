@@ -1,7 +1,7 @@
 import { Octokit, RequestError } from 'octokit'
 
 export default defineEventHandler(async (event) => {
-  const auth = getGithubToken(event)
+  const { token: auth } = await getGithubToken(event)
 
   try {
     const octokit = new Octokit({ auth })
