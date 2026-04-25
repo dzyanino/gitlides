@@ -21,13 +21,6 @@ watch([session, user], async () => {
   ) {
     hasProcessed.value = true
 
-    toast.add({
-      title: user.value.user_metadata.avatar_url
-        ? `Connected as ${user.value.user_metadata.user_name}`
-        : 'Connected',
-      icon: 'i-lucide-circle-check'
-    })
-
     try {
       const { success: userAdded } = await $fetch('/api/user/add', {
         method: 'POST',
@@ -48,6 +41,13 @@ watch([session, user], async () => {
       if (!userAdded || !tokenAdded) {
         throw new Error('Failed to sync user data')
       }
+
+      toast.add({
+        title: user.value.user_metadata.avatar_url
+          ? `Connected as ${user.value.user_metadata.user_name}`
+          : 'Connected',
+        icon: 'i-lucide-circle-check'
+      })
 
       await navigateTo('/home')
     } catch (error) {
