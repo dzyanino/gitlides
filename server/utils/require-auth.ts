@@ -7,5 +7,5 @@ export async function requireAuth(event: H3Event<globalThis.EventHandlerRequest>
   if (!user || !user.user_metadata)
     throw createError({ statusCode: 401, message: 'Unauthorized' })
 
-  return user
+  return { user, userMetadata: user.user_metadata, userId: user.user_metadata.provider_id as number }
 }
