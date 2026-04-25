@@ -76,17 +76,17 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          login: string
+          username: string
         }
         Insert: {
           created_at?: string
           id?: number
-          login: string
+          username: string
         }
         Update: {
           created_at?: string
           id?: number
-          login?: string
+          username?: string
         }
         Relationships: []
       }
