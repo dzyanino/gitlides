@@ -5,15 +5,6 @@ const user = useSupabaseUser()
 
 watch(user, () => {
   if (user.value) {
-    toast.add({
-      title: 'Connexion réussie',
-      ...(
-        (user.value.user_metadata && user.value.user_metadata.avatar_url)
-          ? { avatar: user.value.user_metadata.avatar_url }
-          : { icon: 'i-lucide-circle-check' }
-      )
-    })
-
     return navigateTo('/home')
   }
 }, { immediate: true })
@@ -29,22 +20,6 @@ const providers = [{
   }
 }]
 
-supabase.auth.onAuthStateChange(async (_event, session) => {
-  if (session && session.provider_token) {
-    const success = await $fetch('/api/auth/provider-token', {
-      method: 'POST',
-      body: {
-        user_id: session.user.user_metadata.provider_id,
-        provider_token: session.provider_token
-      }
-    })
-
-    console.log(success)
-
-    if (!success) toast.add({ title: 'Error', description: 'Unknown error', color: 'error' })
-  }
-})
-
 async function signIn() {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
@@ -54,7 +29,7 @@ async function signIn() {
     }
   })
 
-  if (error) console.error(error)
+  if (error) toast.add({ title: 'Error', description: 'Unknown login error', color: 'error' })
 }
 </script>
 
