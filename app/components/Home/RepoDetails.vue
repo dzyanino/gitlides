@@ -1,0 +1,78 @@
+<script lang="ts" setup>
+const selectedRepo = inject('selectedRepo', shallowRef<GithubRepo>())
+</script>
+
+<template>
+  <div class="flex flex-col w-full h-full md:h-2/6 md:max-h-2/6 items-start justify-start">
+    <UEmpty
+      v-if="!selectedRepo"
+      icon="i-lucide-folder-git"
+      title="No repository selected"
+      description="Please choose one."
+      variant="outline"
+      class="size-full"
+    />
+    <UCard
+      v-else
+      :description="selectedRepo.description"
+      variant="outline"
+      class="size-full"
+    >
+      <template #title>
+        <div class="flex items-center justify-between">
+          <span>{{ selectedRepo.full_name }}</span>
+
+          <div class="flex items-center justify-between gap-2 text-sm">
+            <UBadge
+              color="neutral"
+              variant="outline"
+              icon="i-lucide-star"
+            >
+              {{ selectedRepo.stargazers_count }}
+            </UBadge>
+
+            <UTooltip
+              text="Is a fork"
+              :delay-duration="0"
+              arrow
+            >
+              <UBadge
+                v-if="selectedRepo.fork"
+                color="neutral"
+                variant="subtle"
+                icon="i-lucide-git-fork"
+              />
+            </UTooltip>
+          </div>
+        </div>
+      </template>
+
+      <div class="flex flex-col size-full justify-stretch gap-2">
+        <div
+          class="flex items-center justify-between gap-2 text-sm"
+        >
+          <span>Visibility:</span>
+          <UBadge
+            color="neutral"
+            :variant="selectedRepo.private ? 'solid' : 'outline'"
+          >
+            {{ selectedRepo.private ? 'Private' : 'Public' }}
+          </UBadge>
+        </div>
+
+        <div
+          class="flex items-center justify-between gap-2 text-sm"
+        >
+          <span>Default branch:</span>
+          <UBadge
+            color="neutral"
+            variant="outline"
+            icon="i-lucide-git-branch"
+          >
+            {{ selectedRepo.default_branch }}
+          </UBadge>
+        </div>
+      </div>
+    </UCard>
+  </div>
+</template>
