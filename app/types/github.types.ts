@@ -1,6 +1,7 @@
 type GithubRepo = {
   id: number
   name: string
+  owner: { login: string }
   full_name: string
 
   private: boolean
