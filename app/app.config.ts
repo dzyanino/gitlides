@@ -8,6 +8,16 @@ export default defineAppConfig({
       slots: {
         base: ['cursor-pointer']
       }
+    },
+    dropdownMenu: {
+      slots: {
+        item: 'cursor-pointer'
+      }
+    },
+    listbox: {
+      slots: {
+        item: 'cursor-pointer'
+      }
     }
   }
 })
