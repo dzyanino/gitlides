@@ -1,4 +1,8 @@
 <script setup lang="ts">
+useSeoMeta({
+  title: 'Login'
+})
+
 const toast = useToast()
 
 const user = useSupabaseUser()
@@ -39,7 +43,7 @@ async function signIn() {
       <UAuthForm
         title="Login"
         description="Authenticate with your Github account to continue."
-        icon="i-lucide-user"
+        icon="i-lucide-circle-user"
         :providers="providers"
       />
     </UPageCard>

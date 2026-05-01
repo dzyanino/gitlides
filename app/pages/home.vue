@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+useSeoMeta({
+  title: 'Home'
+})
+
 const toast = useToast()
 
 const { data: savedRepos, refresh: refreshSavedRepos } = await useFetch('/api/github/saved-repo')
