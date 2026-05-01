@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 const selectedRepo = inject('selectedRepo', shallowRef<GithubRepo>())
+const selectedRepoLoading = inject('selectedRepoLoading', shallowRef<boolean>(false))
 
 const { data: repos, pending: reposLoading } = await useFetch('/api/github/saved-repo')
 </script>
@@ -11,6 +12,7 @@ const { data: repos, pending: reposLoading } = await useFetch('/api/github/saved
       v-model="selectedRepo"
       :items="repos"
       :loading="reposLoading"
+      :disabled="selectedRepoLoading"
       clear
 
       :search-input="{ icon: 'i-lucide-search' }"

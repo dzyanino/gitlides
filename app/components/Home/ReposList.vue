@@ -1,17 +1,19 @@
 <script lang="ts" setup>
 const selectedRepo = inject('selectedRepo', shallowRef<GithubRepo>())
+const selectedRepoLoading = inject('selectedRepoLoading', shallowRef<boolean>(false))
 
 const { data: repos, pending: reposLoading } = await useFetch('/api/github/saved-repo')
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full md:h-4/6 md:max-h-4/6 items-start justify-start">
+  <div class="flex flex-col size-full items-start justify-start">
     <!-- @vue-ignore -->
     <UListbox
       v-model="selectedRepo"
 
       :items="repos"
       :loading="reposLoading"
+      :disabled="selectedRepoLoading"
 
       :filter="{ icon: 'i-lucide-search' }"
 

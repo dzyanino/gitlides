@@ -23,6 +23,7 @@ const user = useSupabaseUser()
         icon="i-lucide-git-graph"
         label="Continue"
         size="lg"
+        color="neutral"
       />
 
       <UButton

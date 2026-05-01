@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+// const viewport = useViewport()
+
 const selectedRepo = inject('selectedRepo', shallowRef<GithubRepo>())
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full md:h-2/6 md:max-h-2/6 items-start justify-start">
+  <div class="flex flex-col w-full items-start justify-start">
     <UEmpty
       v-if="!selectedRepo"
       icon="i-lucide-folder-git"
@@ -26,9 +28,9 @@ const selectedRepo = inject('selectedRepo', shallowRef<GithubRepo>())
             <UBadge
               color="neutral"
               variant="outline"
-              icon="i-lucide-star"
+              icon="i-lucide-git-branch"
             >
-              {{ selectedRepo.stargazers_count }}
+              {{ selectedRepo.default_branch }}
             </UBadge>
 
             <UTooltip
@@ -63,13 +65,13 @@ const selectedRepo = inject('selectedRepo', shallowRef<GithubRepo>())
         <div
           class="flex items-center justify-between gap-2 text-sm"
         >
-          <span>Default branch:</span>
+          <span>Stargazers:</span>
           <UBadge
             color="neutral"
             variant="outline"
-            icon="i-lucide-git-branch"
+            icon="i-lucide-star"
           >
-            {{ selectedRepo.default_branch }}
+            {{ selectedRepo.stargazers_count }}
           </UBadge>
         </div>
       </div>

@@ -50,9 +50,10 @@ async function addRepos() {
  * Children props
  */
 const selectedRepo = shallowRef<GithubRepo>()
-// const selectedRepoLoading = shallowRef<boolean>()
+const selectedRepoLoading = shallowRef<boolean>(false)
 
 provide('selectedRepo', selectedRepo)
+provide('selectedRepoLoading', selectedRepoLoading)
 </script>
 
 <template>
@@ -132,13 +133,13 @@ provide('selectedRepo', selectedRepo)
 
   <UContainer v-else>
     <div class="flex flex-col md:flex-row w-full h-[calc(100vh-var(--ui-header-height))] justify-evenly">
-      <div class="flex flex-col flex-2/6 gap-2 max-h-full overflow-auto wrap-break-word justify-start p-2">
+      <div class="flex flex-col md:flex-2/5 gap-2 md:max-h-full overflow-auto wrap-break-word justify-start p-2">
         <HomeRepoSelect v-show="viewport.isLessThan('tablet')" />
         <HomeRepoDetails />
         <HomeReposList v-show="viewport.isGreaterOrEquals('tablet')" />
       </div>
 
-      <div class="flex flex-col flex-4/6 max-h-full overflow-auto wrap-break-word justify-start p-2">
+      <div class="flex flex-col flex-3/5 max-h-full overflow-auto wrap-break-word justify-start p-2">
         <HomeCommitsList />
       </div>
     </div>
