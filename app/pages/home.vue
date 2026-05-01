@@ -3,6 +3,8 @@ useSeoMeta({
   title: 'Home'
 })
 
+const viewport = useViewport()
+
 const toast = useToast()
 
 const { data: savedRepos, refresh: refreshSavedRepos } = await useFetch('/api/github/saved-repo')
@@ -11,7 +13,7 @@ const { data: repos, pending: reposLoading, refresh: refreshRepos } = await useF
   immediate: false
 })
 
-const choosenRepos = ref<Tables<'repo'>[]>([])
+const selectedRepos = ref<Tables<'repo'>[]>([])
 
 const isAddReposModalOpen = shallowRef<boolean>(false)
 
@@ -22,14 +24,14 @@ async function getRepos() {
 }
 
 function emptyReposChoices() {
-  choosenRepos.value = []
+  selectedRepos.value = []
 }
 
 async function addRepos() {
   const { success } = await $fetch('/api/repo/add', {
     method: 'POST',
     body: {
-      repos: choosenRepos.value
+      repos: selectedRepos.value
     }
   })
 
@@ -43,6 +45,14 @@ async function addRepos() {
     toast.add({ title: 'Error', description: 'Something went wrong. Refresh the page', color: 'error' })
   }
 }
+
+/**
+ * Children props
+ */
+const selectedRepo = shallowRef<GithubRepo>()
+// const selectedRepoLoading = shallowRef<boolean>()
+
+provide('selectedRepo', selectedRepo)
 </script>
 
 <template>
@@ -80,7 +90,7 @@ async function addRepos() {
       <template #body>
         <!-- @vue-ignore -->
         <UListbox
-          v-model="choosenRepos"
+          v-model="selectedRepos"
 
           :items="repos"
           :loading="reposLoading"
@@ -92,7 +102,6 @@ async function addRepos() {
           label-key="full_name"
 
           multiple
-          selected-icon="i-lucide-circle-check"
         >
           <template #item-label="{ item }">
             <span>{{ item.full_name }}</span>
@@ -122,12 +131,14 @@ async function addRepos() {
   </UContainer>
 
   <UContainer v-else>
-    <div class="flex flex-col md:flex-row gap-4 w-full h-[calc(100vh-var(--ui-header-height))] justify-evenly py-4">
-      <div class="flex flex-col flex-1/3 max-h-full overflow-auto wrap-break-word justify-start bg-primary/10">
-        <HomeReposList />
+    <div class="flex flex-col md:flex-row w-full h-[calc(100vh-var(--ui-header-height))] justify-evenly">
+      <div class="flex flex-col flex-2/6 gap-2 max-h-full overflow-auto wrap-break-word justify-start p-2">
+        <HomeRepoSelect v-show="viewport.isLessThan('tablet')" />
+        <HomeRepoDetails />
+        <HomeReposList v-show="viewport.isGreaterOrEquals('tablet')" />
       </div>
 
-      <div class="flex flex-col flex-2/3 max-h-full overflow-auto wrap-break-word justify-start bg-primary/10">
+      <div class="flex flex-col flex-4/6 max-h-full overflow-auto wrap-break-word justify-start p-2">
         <HomeCommitsList />
       </div>
     </div>
