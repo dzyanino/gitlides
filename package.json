@@ -23,6 +23,7 @@
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/image": "^2.0.0",
     "eslint": "^10.2.0",
+    "nuxt-viewport": "^2.4.0",
     "typescript": "^6.0.2",
     "vue-tsc": "^3.2.6"
   },

@@ -4,7 +4,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxtjs/supabase',
-    '@nuxt/image'
+    '@nuxt/image',
+    'nuxt-viewport'
   ],
 
   ssr: false,
