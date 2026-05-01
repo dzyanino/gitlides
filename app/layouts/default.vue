@@ -30,9 +30,13 @@ const items = ref<DropdownMenuItem[][]>([
 async function signOut() {
   isLogOutButtonLoading.value = true
 
+  const { success } = await $fetch('/api/provider-token/revoke', {
+    method: 'DELETE'
+  })
+
   const { error } = await supabase.auth.signOut()
 
-  if (error) console.error(error)
+  if (!success || error) console.error(error)
 
   isLogOutModalOpen.value = false
 
