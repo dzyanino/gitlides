@@ -63,24 +63,40 @@ provide('selectedRepoLoading', selectedRepoLoading)
 </script>
 
 <template>
-  <!-- @vue-ignore -->
-  <UContainer
-    v-if="savedRepos!.length <= 0"
-    class="flex"
-  >
-    <UEmpty
-      icon="i-lucide-folder-git"
-      title="No repositories found"
-      description="It looks like you haven't added any repositories. Add one to get started."
-      :actions="[
-        {
-          icon: 'i-lucide-plus',
-          label: 'Add repo',
-          onClick: getRepos
-        }
-      ]"
-      class="max-w-md mx-auto self-center -mt-(--ui-header-height)"
-    />
+  <div class="flex-1">
+    <!-- @vue-ignore -->
+    <UContainer
+      v-if="savedRepos!.length <= 0"
+      class="flex size-full"
+    >
+      <UEmpty
+        icon="i-lucide-folder-git"
+        title="No repositories found"
+        description="It looks like you haven't added any repositories. Add one to get started."
+        :actions="[
+          {
+            icon: 'i-lucide-plus',
+            label: 'Add repo',
+            onClick: getRepos
+          }
+        ]"
+        class="max-w-md mx-auto self-center -mt-(--ui-header-height)"
+      />
+    </UContainer>
+
+    <UContainer v-else>
+      <div class="flex flex-col md:flex-row w-full h-[calc(100vh-var(--ui-header-height))] justify-evenly">
+        <div class="flex flex-col md:flex-2/5 gap-2 md:max-h-full overflow-auto wrap-break-word justify-start p-2">
+          <HomeRepoSelect v-show="viewport.isLessThan('tablet')" />
+          <HomeRepoDetails />
+          <HomeReposList v-show="viewport.isGreaterOrEquals('tablet')" />
+        </div>
+
+        <div class="flex flex-col flex-3/5 max-h-full overflow-auto wrap-break-word justify-start p-2">
+          <HomeCommitsList />
+        </div>
+      </div>
+    </UContainer>
 
     <UModal
       v-model:open="isAddReposModalOpen"
@@ -130,24 +146,10 @@ provide('selectedRepoLoading', selectedRepoLoading)
         <UButton
           label="Confirm"
           icon="i-lucide-check"
-          :disabled="repos.length <= 0"
+          :disabled="selectedRepos.length <= 0"
           @click="addRepos"
         />
       </template>
     </UModal>
-  </UContainer>
-
-  <UContainer v-else>
-    <div class="flex flex-col md:flex-row w-full h-[calc(100vh-var(--ui-header-height))] justify-evenly">
-      <div class="flex flex-col md:flex-2/5 gap-2 md:max-h-full overflow-auto wrap-break-word justify-start p-2">
-        <HomeRepoSelect v-show="viewport.isLessThan('tablet')" />
-        <HomeRepoDetails />
-        <HomeReposList v-show="viewport.isGreaterOrEquals('tablet')" />
-      </div>
-
-      <div class="flex flex-col flex-3/5 max-h-full overflow-auto wrap-break-word justify-start p-2">
-        <HomeCommitsList />
-      </div>
-    </div>
-  </UContainer>
+  </div>
 </template>
