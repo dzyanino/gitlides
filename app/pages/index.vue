@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const user = useSupabaseUser()
+const isButtonLoading = shallowRef<boolean>(false)
 </script>
 
 <template>
@@ -38,6 +39,8 @@ const user = useSupabaseUser()
           icon="i-lucide-git-graph"
           label="Continue"
           size="lg"
+          :loading="isButtonLoading"
+          @click="isButtonLoading = true"
         />
 
         <UButton
