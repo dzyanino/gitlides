@@ -17,7 +17,11 @@ export default defineEventHandler(async (event) => {
   try {
     const octokit = new Octokit({ auth })
 
-    const { data: repos } = await octokit.rest.repos.listForAuthenticatedUser()
+    const { data: repos } = await octokit.request('GET /user/repos', {
+      headers: {
+        'X-GitHub-Api-Version': '2026-03-10'
+      }
+    })
 
     const databaseRepoNames = new Set(databaseRepos.map(r => r.full_name))
     const savedRepos = repos.filter(repo => databaseRepoNames.has(repo.full_name))

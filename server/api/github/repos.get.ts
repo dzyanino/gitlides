@@ -6,9 +6,12 @@ export default defineEventHandler(async (event) => {
   try {
     const octokit = new Octokit({ auth })
 
-    const { data } = await octokit.rest.repos.listForAuthenticatedUser()
-
-    return data
+    const { data } = await octokit.request('GET /user/repos', {
+      headers: {
+        'X-GitHub-Api-Version': '2026-03-10'
+      }
+    })
+    return data as GitHubRepo[]
   } catch (error) {
     if (error instanceof RequestError)
       throw createError({ status: 500, message: 'Error fetching repos' })
