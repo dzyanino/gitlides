@@ -10,7 +10,8 @@ const toast = useToast()
 const { data: savedRepos, refresh: refreshSavedRepos } = await useFetch('/api/github/saved-repo')
 
 const { data: repos, pending: reposLoading, refresh: refreshRepos } = await useFetch('/api/github/repos', {
-  immediate: false
+  immediate: false,
+  key: 'repos'
 })
 
 const selectedRepos = ref<Tables<'repo'>[]>([])
@@ -19,8 +20,13 @@ const isAddReposModalOpen = shallowRef<boolean>(false)
 
 async function getRepos() {
   isAddReposModalOpen.value = true
-  if (!repos.value)
+
+  const { data } = useNuxtData('repos')
+
+  if (!data.value)
     await refreshRepos()
+  else
+    repos.value = data.value
 }
 
 function emptyReposChoices() {
