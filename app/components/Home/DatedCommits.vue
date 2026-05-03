@@ -13,18 +13,44 @@ defineProps<{
         v-for="(commit, index) in group.commits"
         :key="commit.sha"
       >
-        <li class="text-md font-bold">
-          {{ commit.message }}
+        <li class="text-wrap font-semibold">
+          <NuxtLink
+            :to="commit.html_url"
+            external
+          >
+            {{ commit.message }}
+          </NuxtLink>
         </li>
-        <span class="indent-6 line-clamp-1">{{ commit.sha }}</span>
-        <span class="indent-6 line-clamp-1">{{ commit.author.login }}</span>
-        <span
-          class="indent-6 line-clamp-1"
-          :class="{ 'mb-4': index < (group.commits.length - 1) }"
+        <div
+          class="flex items-center gap-2 ml-6 mt-2 text-sm"
+          :class="{ 'mb-8': index < (group.commits.length - 1) }"
         >
-          {{ commit.verified }}
-        </span>
+          <UBadge
+            color="neutral"
+            variant="outline"
+            class="size-fit"
+          >
+            {{ commit.sha.substring(0, 6) }}
+          </UBadge>
+          <UUser
+            :name="commit.author.login"
+            :description="commit.author.email"
+            :avatar="{
+              src: commit.author.avatar_url,
+              loading: 'lazy',
+              icon: 'i-lucide-image'
+            }"
+            size="xs"
+            class="opacity-25 hover:opacity-100"
+          />
+        </div>
       </template>
     </ul>
+
+    <template #footer>
+      <div class="flex justify-end">
+        <span>{{ group.commits.length }} commits</span>
+      </div>
+    </template>
   </UCard>
 </template>
