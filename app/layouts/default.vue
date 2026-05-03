@@ -54,6 +54,7 @@ onUnmounted(() => {
       title="Gitlides"
       :toggle="false"
       class="border-none"
+      :class="{ 'bg-transparent backdrop-blur-none': route.path == '/' }"
     >
       <template #right>
         <UColorModeButton />
