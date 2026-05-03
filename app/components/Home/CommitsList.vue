@@ -6,20 +6,21 @@ const { data: groupedCommits, refresh: refreshGroupedCommits } = await useFetch(
   () => `/api/github/commits?owner=${selectedRepo.value?.owner.login}&repo=${selectedRepo.value?.name}`,
   {
     immediate: false,
+    key: 'current-commits',
 
     onRequest: () => {
       selectedRepoLoading.value = true
-    },
-
-    onResponse: () => {
-      selectedRepoLoading.value = false
     }
   }
 )
 
 watch(selectedRepo, async (newRepo) => {
-  if (newRepo)
+  if (!newRepo) return
+
+  else {
     await refreshGroupedCommits()
+    selectedRepoLoading.value = false
+  }
 })
 </script>
 
