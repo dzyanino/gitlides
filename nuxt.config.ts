@@ -35,6 +35,10 @@ export default defineNuxtConfig({
     }
   },
 
+  fonts: {
+    priority: ['bunny', 'fontsource']
+  },
+
   supabase: {
     redirectOptions: {
       login: '/login',
