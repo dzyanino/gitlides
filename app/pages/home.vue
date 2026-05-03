@@ -55,7 +55,7 @@ async function addRepos() {
 /**
  * Children props
  */
-const selectedRepo = shallowRef<GithubRepo>()
+const selectedRepo = shallowRef<GitHubRepo>()
 const selectedRepoLoading = shallowRef<boolean>(false)
 
 provide('selectedRepo', selectedRepo)
