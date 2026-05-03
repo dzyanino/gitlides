@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-// const viewport = useViewport()
-
-const selectedRepo = inject('selectedRepo', shallowRef<GithubRepo>())
+const selectedRepo = inject('selectedRepo', shallowRef<GitHubRepo>())
 </script>
 
 <template>
@@ -16,7 +14,7 @@ const selectedRepo = inject('selectedRepo', shallowRef<GithubRepo>())
     />
     <UCard
       v-else
-      :description="selectedRepo.description"
+      :description="selectedRepo.description ?? ''"
       variant="outline"
       class="size-full"
     >

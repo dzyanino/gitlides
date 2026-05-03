@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const selectedRepo = inject('selectedRepo', shallowRef<GithubRepo>())
+const selectedRepo = inject('selectedRepo', shallowRef<GitHubRepo>())
 const selectedRepoLoading = inject('selectedRepoLoading', shallowRef<boolean>(false))
 
 const { data: repos, pending: reposLoading } = await useFetch('/api/github/saved-repo')
