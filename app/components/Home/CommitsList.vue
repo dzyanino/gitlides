@@ -24,36 +24,23 @@ watch(selectedRepo, async (newRepo) => {
 </script>
 
 <template>
-  <div class="flex flex-col size-full max-h-full items-start justify-start gap-2">
-    <UEmpty
-      v-if="!selectedRepo"
-      description=": ("
-      variant="outline"
-      class="flex-1 size-full"
-    />
-    <div
-      v-else
-      class="flex flex-col size-full"
+  <!-- <div class="flex flex-col size-full items-start justify-start gap-2"> -->
+  <UEmpty
+    v-if="!selectedRepo"
+    description=": ("
+    variant="outline"
+    class="flex-1 size-full"
+  />
+  <div
+    v-else
+    class="flex flex-col w-full gap-4"
+  >
+    <template
+      v-for="group in groupedCommits"
+      :key="group.date"
     >
-      <template
-        v-for="group in groupedCommits"
-        :key="group.date"
-      >
-        <UCard
-          :title="group.date"
-        >
-          <template
-            v-for="commit in group.commits"
-            :key="commit.sha"
-          >
-            <span>{{ commit.message }}</span>
-            <span>{{ commit.sha }}</span>
-            <span>{{ commit.author }}</span>
-            <span>{{ commit.html_url }}</span>
-            <span>{{ commit.sha }}</span>
-          </template>
-        </UCard>
-      </template>
-    </div>
+      <HomeDatedCommits :group />
+    </template>
   </div>
+  <!-- </div> -->
 </template>
