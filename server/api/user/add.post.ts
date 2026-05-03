@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   await requireAuth(event)
 
   const body = await readBody(event)
-  const { id, username } = body
+  const { id, username }: { id: number, username: string } = body
 
   if (!id || !username)
     throw createError({ statusCode: 400, message: 'Missing body' })

@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   const { userId } = await requireAuth(event)
 
   const body = await readBody(event)
-  const { repos } = body
+  const { repos }: { repos: Tables<'repo'>[] } = body
 
   if (!repos)
     throw createError({ statusCode: 400, message: 'Missing body' })

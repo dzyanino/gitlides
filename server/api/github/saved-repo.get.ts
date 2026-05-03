@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     const databaseRepoNames = new Set(databaseRepos.map(r => r.full_name))
     const savedRepos = repos.filter(repo => databaseRepoNames.has(repo.full_name))
 
-    return savedRepos
+    return savedRepos as GitHubRepo[]
   } catch (error) {
     if (error instanceof RequestError)
       throw createError({ status: 500, message: 'Error fetching saved repos' })
