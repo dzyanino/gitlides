@@ -26,9 +26,8 @@ defineProps<{
           :class="{ 'mb-8': index < (group.commits.length - 1) }"
         >
           <UBadge
-            color="neutral"
             variant="outline"
-            class="size-fit"
+            class="size-fit text-primary"
           >
             {{ commit.sha.substring(0, 6) }}
           </UBadge>
@@ -49,7 +48,7 @@ defineProps<{
 
     <template #footer>
       <div class="flex justify-end">
-        <span>{{ group.commits.length }} commits</span>
+        <span>{{ group.commits.length }} commit{{ group.commits.length > 1 ? 's' : '' }}</span>
       </div>
     </template>
   </UCard>

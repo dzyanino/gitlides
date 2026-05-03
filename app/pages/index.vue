@@ -21,7 +21,7 @@ const isButtonLoading = shallowRef<boolean>(false)
       class="w-full h-full"
     >
       <template #title>
-        <span class="main-title">No more <span class="title-emphasis text-dimmed">boring</span> meetings</span>
+        <span class="main-title">No more <span class="title-emphasis">boring</span> meetings</span>
       </template>
 
       <template #links>
