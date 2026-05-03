@@ -25,7 +25,6 @@ watch(selectedRepo, async (newRepo) => {
 </script>
 
 <template>
-  <!-- <div class="flex flex-col size-full items-start justify-start gap-2"> -->
   <UEmpty
     v-if="!selectedRepo"
     description=": ("
@@ -36,12 +35,35 @@ watch(selectedRepo, async (newRepo) => {
     v-else
     class="flex flex-col w-full gap-4"
   >
-    <template
-      v-for="group in groupedCommits"
-      :key="group.date"
-    >
-      <HomeDatedCommits :group />
+    <template v-if="selectedRepoLoading">
+      <UCard
+        v-for="skeleton in 4"
+        :key="skeleton"
+      >
+        <template #title>
+          <USkeleton class="h-4 w-full max-w-3/6" />
+        </template>
+
+        <div class="flex flex-col gap-4">
+          <USkeleton class="h-4 w-full max-w-4/6" />
+          <USkeleton class="h-4 w-full max-w-5/6" />
+          <USkeleton class="h-4 w-full max-w-3/6" />
+          <USkeleton class="h-4 w-full max-w-4/6" />
+        </div>
+
+        <template #footer>
+          <USkeleton class="h-4 w-full max-w-2/6" />
+        </template>
+      </UCard>
+    </template>
+
+    <template v-else>
+      <template
+        v-for="group in groupedCommits"
+        :key="group.date"
+      >
+        <HomeDatedCommits :group />
+      </template>
     </template>
   </div>
-  <!-- </div> -->
 </template>
