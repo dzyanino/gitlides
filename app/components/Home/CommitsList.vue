@@ -29,11 +29,11 @@ watch(selectedRepo, async (newRepo) => {
     v-if="!selectedRepo"
     description=": ("
     variant="outline"
-    class="flex-1 size-full"
+    class="size-full"
   />
   <div
     v-else
-    class="flex flex-col w-full gap-4"
+    class="flex flex-col w-full gap-4 p-px"
   >
     <template v-if="selectedRepoLoading">
       <UCard

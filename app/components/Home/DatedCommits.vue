@@ -2,6 +2,8 @@
 defineProps<{
   group: CommitGroup
 }>()
+
+const user = useSupabaseUser()
 </script>
 
 <template>
@@ -16,7 +18,9 @@ defineProps<{
         <li class="text-wrap font-semibold">
           <NuxtLink
             :to="commit.html_url"
+            target="_blank"
             external
+            class="hover:text-primary"
           >
             {{ commit.message }}
           </NuxtLink>
@@ -27,20 +31,29 @@ defineProps<{
         >
           <UBadge
             variant="outline"
-            class="size-fit text-primary"
+            color="neutral"
+            class="size-fit"
           >
             {{ commit.sha.substring(0, 6) }}
           </UBadge>
           <UUser
+            v-bind="
+              user?.user_metadata?.user_name != commit.author.login
+                ? {
+                  to: `https://github.com/${commit.author.login}`,
+                  target: '_blank'
+                }
+                : {}
+            "
             :name="commit.author.login"
-            :description="commit.author.email"
             :avatar="{
               src: commit.author.avatar_url,
               loading: 'lazy',
               icon: 'i-lucide-image'
             }"
             size="xs"
-            class="opacity-25 hover:opacity-100"
+            class="hover:opacity-100"
+            :class="user?.user_metadata?.user_name == commit.author.login ? 'opacity-25' : 'opacity-75'"
           />
         </div>
       </template>

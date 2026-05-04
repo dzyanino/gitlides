@@ -4,7 +4,7 @@ const isButtonLoading = shallowRef<boolean>(false)
 </script>
 
 <template>
-  <div class="flex-1">
+  <div class="size-full">
     <Teleport to="body">
       <IndexBackground
         direction="left"
@@ -18,7 +18,7 @@ const isButtonLoading = shallowRef<boolean>(false)
 
     <UPageHero
       description="Gitlides is a tool for making slides out of daily commits to use during review meetings."
-      class="w-full h-full"
+      class="size-full"
     >
       <template #title>
         <span class="main-title">No more <span class="title-emphasis">boring</span> meetings</span>

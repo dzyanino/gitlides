@@ -15,16 +15,19 @@ watch(user, () => {
 
 const supabase = useSupabaseClient()
 
+const isLoginButtonLoading = shallowRef<boolean>(false)
+
 const providers = [{
   label: 'GitHub',
   icon: 'i-simple-icons-github',
-  class: 'cursor-pointer',
   onClick: () => {
     signIn()
   }
 }]
 
 async function signIn() {
+  isLoginButtonLoading.value = true
+
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
     options: {
@@ -33,19 +36,40 @@ async function signIn() {
     }
   })
 
-  if (error) toast.add({ title: 'Error', description: 'Unknown login error', color: 'error' })
+  if (error) {
+    isLoginButtonLoading.value = false
+    toast.add({ title: 'Error', description: 'Unknown login error', color: 'error' })
+  }
 }
 </script>
 
 <template>
-  <UContainer class="flex items-center justify-center">
+  <div class="flex flex-1 items-center justify-center p-4">
     <UPageCard class="max-w-md -mt-(--ui-header-height)">
       <UAuthForm
         title="Login"
         description="Authenticate with your Github account to continue."
         icon="i-lucide-circle-user"
-        :providers="providers"
-      />
+        :providers
+        :loading="isLoginButtonLoading"
+      >
+        <template #providers>
+          <template
+            v-for="provider in providers"
+            :key="provider.label"
+          >
+            <UButton
+              :label="provider.label"
+              :icon="provider.icon"
+              :loading="isLoginButtonLoading"
+              block
+              color="neutral"
+              variant="subtle"
+              @click="signIn"
+            />
+          </template>
+        </template>
+      </UAuthForm>
     </UPageCard>
-  </UContainer>
+  </div>
 </template>

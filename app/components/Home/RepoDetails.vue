@@ -3,7 +3,7 @@ const selectedRepo = inject('selectedRepo', shallowRef<GitHubRepo>())
 </script>
 
 <template>
-  <div class="flex flex-col w-full items-start justify-start">
+  <div class="flex flex-col w-full md:h-fit items-start justify-start">
     <UEmpty
       v-if="!selectedRepo"
       icon="i-lucide-folder-git"
@@ -22,7 +22,7 @@ const selectedRepo = inject('selectedRepo', shallowRef<GitHubRepo>())
         <div class="flex items-center justify-between">
           <span>{{ selectedRepo.full_name }}</span>
 
-          <div class="flex items-center justify-between gap-2 text-sm">
+          <div class="flex items-center gap-2 text-sm">
             <UBadge
               color="neutral"
               variant="outline"
@@ -47,7 +47,7 @@ const selectedRepo = inject('selectedRepo', shallowRef<GitHubRepo>())
         </div>
       </template>
 
-      <div class="flex flex-col size-full justify-stretch gap-2">
+      <div class="flex flex-col size-full gap-2">
         <div
           class="flex items-center justify-between gap-2 text-sm"
         >

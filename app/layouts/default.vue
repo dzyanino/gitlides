@@ -53,8 +53,7 @@ onUnmounted(() => {
     <UHeader
       title="Gitlides"
       :toggle="false"
-      class="border-none"
-      :class="{ 'bg-transparent backdrop-blur-none': route.path == '/' }"
+      :class="{ 'bg-transparent backdrop-blur-none border-none': route.path == '/' }"
     >
       <template #right>
         <UColorModeButton />

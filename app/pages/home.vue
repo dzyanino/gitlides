@@ -64,12 +64,10 @@ provide('selectedRepoLoading', selectedRepoLoading)
 
 <template>
   <div class="flex-1">
-    <!-- @vue-ignore -->
-    <UContainer
-      v-if="savedRepos!.length <= 0"
-      class="flex size-full"
-    >
+    <UContainer class="flex size-full">
+      <!-- @vue-ignore -->
       <UEmpty
+        v-if="savedRepos!.length <= 0"
         icon="i-lucide-folder-git"
         title="No repositories found"
         description="It looks like you haven't added any repositories. Add one to get started."
@@ -82,17 +80,20 @@ provide('selectedRepoLoading', selectedRepoLoading)
         ]"
         class="max-w-md mx-auto self-center -mt-(--ui-header-height)"
       />
-    </UContainer>
 
-    <UContainer v-else>
-      <div class="flex flex-col md:flex-row w-full h-[calc(100vh-var(--ui-header-height))] justify-evenly">
-        <div class="flex flex-col md:flex-2/6 gap-2 md:max-h-full overflow-auto wrap-break-word justify-start p-2">
-          <HomeRepoSelect v-show="viewport.isLessThan('tablet')" />
+      <div
+        v-else
+        class="flex flex-col md:flex-row w-full h-[calc(100vh-var(--ui-header-height))] py-4"
+      >
+        <div class="flex flex-col w-full md:max-w-4/11 h-full max-h-fit md:max-h-full gap-2 p-2">
           <HomeRepoDetails />
+
+          <HomeRepoSelect v-show="viewport.isLessThan('tablet')" />
+
           <HomeReposList v-show="viewport.isGreaterOrEquals('tablet')" />
         </div>
 
-        <div class="flex flex-col flex-4/6 max-h-full overflow-auto wrap-break-word justify-start p-2">
+        <div class="flex flex-col w-full h-full max-h-full overflow-auto wrap-break-word gap-2 p-2">
           <HomeCommitsList />
         </div>
       </div>
