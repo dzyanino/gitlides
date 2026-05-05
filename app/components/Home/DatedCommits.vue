@@ -59,10 +59,10 @@ const user = useSupabaseUser()
       </template>
     </ul>
 
-    <template #footer>
+    <!-- <template #footer>
       <div class="flex justify-end">
         <span>{{ group.commits.length }} commit{{ group.commits.length > 1 ? 's' : '' }}</span>
       </div>
-    </template>
+    </template> -->
   </UCard>
 </template>

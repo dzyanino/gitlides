@@ -37,23 +37,33 @@ export default defineEventHandler(async (event) => {
 
   const query = getQuery(event)
 
-  const { owner, repo } = query
+  const { owner, repo, page } = query
 
-  if (!owner || !repo)
+  if (!owner || !repo || !page)
     throw createError({ statusCode: 400, message: 'Missing query parameters' })
 
   try {
     const octokit = new Octokit({ auth })
 
-    const { data } = await octokit.request('GET /repos/{owner}/{repo}/commits', {
+    const { headers, data } = await octokit.request('GET /repos/{owner}/{repo}/commits', {
       owner: owner.toString(),
       repo: repo.toString(),
+      page: parseInt(page.toString()),
+      per_page: 30,
+
       headers: {
         'X-GitHub-Api-Version': '2026-03-10'
       }
     })
 
-    return transformAndGroupCommits(data as GitHubCommit[])
+    const hasPreviousPage = headers.link?.includes('rel="prev"') ?? false
+    const hasNextPage = headers.link?.includes('rel="next"') ?? false
+
+    return {
+      groupedCommits: transformAndGroupCommits(data as GitHubCommit[]),
+      hasPreviousPage,
+      hasNextPage
+    }
   } catch (error) {
     if (error instanceof RequestError) {
       throw createError({ status: 500, message: 'Error fetching repos' })

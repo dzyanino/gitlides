@@ -8,6 +8,15 @@ const viewport = useViewport()
 const toast = useToast()
 
 /**
+ * UI state variables
+ */
+const isSidebarOpen = shallowRef<boolean>(false)
+
+const selectedRepos = ref<Tables<'repo'>[]>([])
+
+const isAddReposModalOpen = shallowRef<boolean>(false)
+
+/**
  * Data
  */
 const { data: savedRepos, refresh: refreshSavedRepos } = await useFetch('/api/github/saved-repo')
@@ -16,15 +25,6 @@ const { data: repos, pending: reposLoading, refresh: refreshRepos } = await useF
   immediate: false,
   key: 'repos'
 })
-
-/**
- * UI state variables
- */
-const isSidebarOpen = shallowRef<boolean>(false)
-
-const selectedRepos = ref<Tables<'repo'>[]>([])
-
-const isAddReposModalOpen = shallowRef<boolean>(false)
 
 /**
  * Functions
@@ -69,8 +69,16 @@ async function addRepos() {
 const selectedRepo = shallowRef<GitHubRepo>()
 const selectedRepoLoading = shallowRef<boolean>(false)
 
+const commitsPage = shallowRef<number>(1)
+const hasPreviousPage = shallowRef<boolean>(false)
+const hasNextPage = shallowRef<boolean>(false)
+
 provide('selectedRepo', selectedRepo)
 provide('selectedRepoLoading', selectedRepoLoading)
+
+provide('commitsPage', commitsPage)
+provide('hasPreviousPage', hasPreviousPage)
+provide('hasNextPage', hasNextPage)
 </script>
 
 <template>
@@ -129,7 +137,6 @@ provide('selectedRepoLoading', selectedRepoLoading)
             </div>
 
             <HomeRepoDetails />
-
             <HomeReposList />
           </div>
 
@@ -147,12 +154,16 @@ provide('selectedRepoLoading', selectedRepoLoading)
                 <UButton
                   icon="i-lucide-chevron-left"
                   variant="ghost"
+                  :disabled="!hasPreviousPage || !selectedRepo || selectedRepoLoading"
+                  @click="commitsPage--"
                 >
                   Previous
                 </UButton>
                 <UButton
                   icon="i-lucide-chevron-right"
                   variant="ghost"
+                  :disabled="!hasNextPage || !selectedRepo || selectedRepoLoading"
+                  @click="commitsPage++"
                 >
                   Next
                 </UButton>
@@ -160,6 +171,28 @@ provide('selectedRepoLoading', selectedRepoLoading)
             </div>
 
             <HomeCommitsList />
+
+            <div
+              v-if="selectedRepo && !selectedRepoLoading"
+              class="flex items-center justify-end gap-2"
+            >
+              <UButton
+                icon="i-lucide-chevron-left"
+                variant="ghost"
+                :disabled="!hasPreviousPage"
+                @click="commitsPage--"
+              >
+                Previous
+              </UButton>
+              <UButton
+                icon="i-lucide-chevron-right"
+                variant="ghost"
+                :disabled="!hasNextPage"
+                @click="commitsPage++"
+              >
+                Next
+              </UButton>
+            </div>
           </div>
         </div>
       </template>

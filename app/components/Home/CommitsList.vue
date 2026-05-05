@@ -2,8 +2,19 @@
 const selectedRepo = inject('selectedRepo', shallowRef<GitHubRepo>())
 const selectedRepoLoading = inject('selectedRepoLoading', shallowRef<boolean>(false))
 
-const { data: groupedCommits, refresh: refreshGroupedCommits } = await useFetch(
-  () => `/api/github/commits?owner=${selectedRepo.value?.owner.login}&repo=${selectedRepo.value?.name}`,
+const page = inject('commitsPage', shallowRef<number>(1))
+const hasPreviousPage = inject('hasPreviousPage', shallowRef<boolean>(false))
+const hasNextPage = inject('hasNextPage', shallowRef<boolean>(false))
+
+/**
+ * UI state variables
+ */
+
+/**
+ * Data
+ */
+const { data: groupedCommitsData, refresh: refreshGroupedCommits } = await useFetch(
+  () => `/api/github/commits?owner=${selectedRepo.value?.owner.login}&repo=${selectedRepo.value?.name}&page=${page.value}`,
   {
     immediate: false,
     key: 'current-commits',
@@ -14,11 +25,20 @@ const { data: groupedCommits, refresh: refreshGroupedCommits } = await useFetch(
   }
 )
 
-watch(selectedRepo, async (newRepo) => {
-  if (!newRepo) return
+const groupedCommits = computed<CommitGroup[]>(() => groupedCommitsData.value?.groupedCommits ?? [])
+
+/**
+ * Watchers
+ */
+watch([selectedRepo, page], async ([newRepo, newPage]) => {
+  if (!newRepo || newPage == 0) return
 
   else {
     await refreshGroupedCommits()
+
+    hasPreviousPage.value = groupedCommitsData.value?.hasPreviousPage ?? false
+    hasNextPage.value = groupedCommitsData.value?.hasNextPage ?? false
+
     selectedRepoLoading.value = false
   }
 })
@@ -37,7 +57,7 @@ watch(selectedRepo, async (newRepo) => {
   >
     <template v-if="selectedRepoLoading">
       <UCard
-        v-for="skeleton in 4"
+        v-for="skeleton in 2"
         :key="skeleton"
       >
         <template #title>
@@ -51,9 +71,9 @@ watch(selectedRepo, async (newRepo) => {
           <USkeleton class="h-4 w-full max-w-4/6" />
         </div>
 
-        <template #footer>
+        <!-- <template #footer>
           <USkeleton class="h-4 w-full max-w-2/6" />
-        </template>
+        </template> -->
       </UCard>
     </template>
 
