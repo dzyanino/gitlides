@@ -150,15 +150,25 @@ provide('hasNextPage', hasNextPage)
                 @click="isSidebarOpen = !isSidebarOpen"
               />
 
-              <div class="flex items-center gap-2">
-                <UButton
-                  icon="i-lucide-chevron-left"
-                  variant="ghost"
-                  :disabled="!hasPreviousPage || !selectedRepo || selectedRepoLoading"
-                  @click="commitsPage--"
-                >
-                  Previous
-                </UButton>
+              <div class="flex items-center gap-4">
+                <div class="flex items-center gap-1">
+                  <UButton
+                    icon="i-lucide-chevron-first"
+                    variant="ghost"
+                    :disabled="commitsPage < 2 || !selectedRepo || selectedRepoLoading"
+                    @click="commitsPage = 1"
+                  />
+
+                  <UButton
+                    icon="i-lucide-chevron-left"
+                    variant="ghost"
+                    :disabled="!hasPreviousPage || !selectedRepo || selectedRepoLoading"
+                    @click="commitsPage--"
+                  >
+                    Previous
+                  </UButton>
+                </div>
+
                 <UButton
                   icon="i-lucide-chevron-right"
                   variant="ghost"
@@ -174,16 +184,26 @@ provide('hasNextPage', hasNextPage)
 
             <div
               v-if="selectedRepo && !selectedRepoLoading"
-              class="flex items-center justify-end gap-2"
+              class="flex items-center justify-end gap-4"
             >
-              <UButton
-                icon="i-lucide-chevron-left"
-                variant="ghost"
-                :disabled="!hasPreviousPage"
-                @click="commitsPage--"
-              >
-                Previous
-              </UButton>
+              <div class="flex items-center gap-1">
+                <UButton
+                  icon="i-lucide-chevron-first"
+                  variant="ghost"
+                  :disabled="commitsPage < 2 || !selectedRepo || selectedRepoLoading"
+                  @click="commitsPage = 1"
+                />
+
+                <UButton
+                  icon="i-lucide-chevron-left"
+                  variant="ghost"
+                  :disabled="!hasPreviousPage || !selectedRepo || selectedRepoLoading"
+                  @click="commitsPage--"
+                >
+                  Previous
+                </UButton>
+              </div>
+
               <UButton
                 icon="i-lucide-chevron-right"
                 variant="ghost"
