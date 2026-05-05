@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const selectedRepo = inject('selectedRepo', shallowRef<GitHubRepo>())
 const selectedRepoLoading = inject('selectedRepoLoading', shallowRef<boolean>(false))
+const commitsPage = inject('commitsPage', shallowRef<number>(1))
 
 const { data: repos, pending: reposLoading } = await useFetch('/api/github/saved-repo')
 </script>
@@ -19,6 +20,7 @@ const { data: repos, pending: reposLoading } = await useFetch('/api/github/saved
 
       label-key="full_name"
       class="size-full"
+      @change="commitsPage = 1"
     >
       <template #item-label="{ item }">
         <span>{{ item.full_name }}</span>
