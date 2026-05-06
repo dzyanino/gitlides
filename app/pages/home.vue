@@ -12,7 +12,7 @@ const toast = useToast()
  */
 const isSidebarOpen = shallowRef<boolean>(false)
 
-const selectedRepos = ref<Tables<'repo'>[]>([])
+const selectedNewRepos = ref<Tables<'repo'>[]>([])
 
 const isAddReposModalOpen = shallowRef<boolean>(false)
 
@@ -41,14 +41,14 @@ async function getRepos() {
 }
 
 function emptyReposChoices() {
-  selectedRepos.value = []
+  selectedNewRepos.value = []
 }
 
 async function addRepos() {
   const { success } = await $fetch('/api/repo/add', {
     method: 'POST',
     body: {
-      repos: selectedRepos.value
+      repos: selectedNewRepos.value
     }
   })
 
@@ -110,8 +110,8 @@ provide('hasNextPage', hasNextPage)
             <div
               class="flex flex-col gap-4"
             >
-              <HomeRepoDetails />
               <HomeRepoSelect />
+              <HomeRepoDetails />
             </div>
 
             <template #close>
@@ -233,7 +233,7 @@ provide('hasNextPage', hasNextPage)
       <template #body>
         <!-- @vue-ignore -->
         <UListbox
-          v-model="selectedRepos"
+          v-model="selectedNewRepos"
 
           :items="repos"
           :loading="reposLoading"
@@ -266,7 +266,7 @@ provide('hasNextPage', hasNextPage)
         <UButton
           label="Confirm"
           icon="i-lucide-check"
-          :disabled="selectedRepos.length <= 0"
+          :disabled="selectedNewRepos.length <= 0"
           @click="addRepos"
         />
       </template>
