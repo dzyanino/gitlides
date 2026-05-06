@@ -3,7 +3,7 @@ const selectedRepo = inject('selectedRepo', shallowRef<GitHubRepo>())
 </script>
 
 <template>
-  <div class="flex flex-col w-full md:h-fit items-start justify-start">
+  <div class="flex flex-col w-full md:h-fit items-start justify-start p-px">
     <UEmpty
       v-if="!selectedRepo"
       icon="i-lucide-folder-git"
