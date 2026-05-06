@@ -7,12 +7,6 @@ const toast = useToast()
 
 const user = useSupabaseUser()
 
-watch(user, () => {
-  if (user.value) {
-    return navigateTo('/home')
-  }
-}, { immediate: true })
-
 const supabase = useSupabaseClient()
 
 const isLoginButtonLoading = shallowRef<boolean>(false)
@@ -41,6 +35,14 @@ async function signIn() {
     toast.add({ title: 'Error', description: 'Unknown login error', color: 'error' })
   }
 }
+
+watch(user, () => {
+  if (user.value) {
+    isLoginButtonLoading.value = true
+
+    return navigateTo('/home')
+  }
+}, { immediate: true })
 </script>
 
 <template>

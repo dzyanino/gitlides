@@ -3,13 +3,35 @@ defineProps<{
   group: CommitGroup
 }>()
 
+const viewport = useViewport()
+
+const selectedRepo = inject('selectedRepo', shallowRef<GitHubRepo>())
+
 const user = useSupabaseUser()
 </script>
 
 <template>
-  <UCard
-    :title="group.date"
-  >
+  <UCard>
+    <template #title>
+      <div class="flex items-center justify-between gap-4">
+        <span>{{ group.date }}</span>
+
+        <div class="flex items-center gap-4">
+          <span class="text-xs text-dimmed font-normal">
+            {{ group.commits.length + ' commit' + (group.commits.length > 1 ? 's' : '') }}
+          </span>
+          <UButton
+            :to="`/summary/${selectedRepo?.owner.login}/${selectedRepo?.name}/${group.date}`"
+            v-bind="viewport.isLessOrEquals('mobile') ? {} : { label: 'Summarize' }"
+            size="xs"
+            color="neutral"
+            variant="link"
+            trailing-icon="i-lucide-arrow-right"
+          />
+        </div>
+      </div>
+    </template>
+
     <ul class="list-disc list-inside">
       <template
         v-for="(commit, index) in group.commits"

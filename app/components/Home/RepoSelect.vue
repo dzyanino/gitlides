@@ -7,7 +7,7 @@ const { data: repos, pending: reposLoading } = await useFetch('/api/github/saved
 </script>
 
 <template>
-  <div class="flex flex-col w-full items-center justify-center">
+  <div class="flex flex-col w-full items-center justify-center p-px">
     <!-- @vue-ignore -->
     <USelectMenu
       v-model="selectedRepo"
@@ -19,6 +19,7 @@ const { data: repos, pending: reposLoading } = await useFetch('/api/github/saved
       :search-input="{ icon: 'i-lucide-search' }"
 
       label-key="full_name"
+      placeholder="me/super-repo"
       class="w-full"
       @change="commitsPage = 1"
     />

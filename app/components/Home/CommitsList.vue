@@ -9,6 +9,19 @@ const hasNextPage = inject('hasNextPage', shallowRef<boolean>(false))
 /**
  * UI state variables
  */
+const kaomojis = [
+  `(＃＞＜)`, `(；⌣̀_⌣́)`, `☆ｏ(＞＜；)○`, `(￣ ￣|||)`, `(；￣Д￣)`, `(￣□￣」)`,
+  `(＃￣0￣)`, `(＃￣ω￣)`, `(￢_￢;)`, `(＞ｍ＜)`, `(」°ロ°)」`, `(〃＞＿＜;〃)`,
+  `(＾＾＃)`, `(︶︹︺)`, `(￣ヘ￣)`, `<(￣ ﹌ ￣)>`, `(￣︿￣)`, `(＞﹏＜)`,
+  `(--_--)`, `凸(￣ヘ￣)`, `ヾ( ￣O￣)ツ`, `(⇀‸↼‶)`, `o(>< )o`, `(」＞＜)」`,
+  `(ᗒᗣᗕ)՞`, `(눈_눈)`, `(￣ω￣;)`, `σ(￣、￣〃)`, `(￣～￣;)`, `(-_-;)・・・`,
+  `┐('～\`;)┌`, `(・_・ヾ`, `(〃￣ω￣〃ゞ`, `┐(￣ヘ￣;)┌`, `(・_・;)`, `(￣_￣)・・・`,
+  `╮(￣ω￣;)╭`, `(¯ . ¯;)`, `(＠_＠)`, `(・・;)ゞ`, `Σ(￣。￣ﾉ)`, `(・・ ) ?`,
+  `(•ิ_•ิ)?`, `(◎ ◎)ゞ`, `(ーー;)`, `ლ(ಠ_ಠ ლ)`, `ლ(¯ロ¯"ლ)`, `(¯ . ¯٥)`,
+  `(¯ ¯٥)`, `(・・?)`, `(??_??)`, `(⊙.⊙)?`
+]
+
+const kaomoji = shallowRef<string>(kaomojis[0] as string)
 
 /**
  * Data
@@ -31,7 +44,8 @@ const groupedCommits = computed<CommitGroup[]>(() => groupedCommitsData.value?.g
  * Watchers
  */
 watch([selectedRepo, page], async ([newRepo, newPage]) => {
-  if (!newRepo || newPage == 0) return
+  if (!newRepo || newPage == 0)
+    kaomoji.value = kaomojis[Math.floor(Math.random() * (kaomojis.length))] as string
 
   else {
     await refreshGroupedCommits()
@@ -47,7 +61,7 @@ watch([selectedRepo, page], async ([newRepo, newPage]) => {
 <template>
   <UEmpty
     v-if="!selectedRepo"
-    description=": ("
+    :description="kaomoji"
     variant="outline"
     class="size-full"
   />

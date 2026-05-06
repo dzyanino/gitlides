@@ -7,7 +7,7 @@ const { data: repos, pending: reposLoading } = await useFetch('/api/github/saved
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-2/3 items-start justify-center">
+  <div class="flex flex-col w-full h-2/3 items-start justify-center p-px">
     <!-- @vue-ignore -->
     <UListbox
       v-model="selectedRepo"

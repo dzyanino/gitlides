@@ -9,11 +9,18 @@ const route = useRoute()
 const isLogOutModalOpen = shallowRef<boolean>(false)
 const isLogOutButtonLoading = shallowRef<boolean>(false)
 
+const userInfo = computed(() => {
+  return {
+    label: user.value?.user_metadata?.name,
+    description: user.value?.user_metadata?.user_name
+  }
+})
+
 const items = ref<DropdownMenuItem[][]>([
   [
     {
-      label: `${(user.value && user.value.user_metadata) ? user.value.user_metadata.name : 'no user'}`,
-      description: `${(user.value && user.value.user_metadata) ? user.value.user_metadata.user_name : 'login first'}`,
+      label: userInfo.value.label,
+      description: userInfo.value.description,
       type: 'label'
     }
   ],
